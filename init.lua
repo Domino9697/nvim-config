@@ -1,0 +1,5 @@
+require("francois.plugins")
+require("francois.options")
+require("francois.keymaps")
+require("francois.colorscheme")
+require("francois.autocomands")
