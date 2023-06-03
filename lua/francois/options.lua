@@ -20,7 +20,7 @@ opt.incsearch = true
 
 opt.swapfile = false
 opt.backup = false
-opt.undodir = os.getenv('HOME') .. '/vim/undodir'
+opt.undodir = os.getenv("HOME") .. "/vim/undodir"
 opt.undofile = true
 
 -- cursor line
@@ -40,10 +40,9 @@ opt.clipboard:append("unnamedplus")
 opt.splitright = true
 opt.splitbelow = true
 
--- add - as a word element 
+-- add - as a word element
 opt.iskeyword:append("-")
 
 opt.scrolloff = 8
 
 opt.updatetime = 50
-

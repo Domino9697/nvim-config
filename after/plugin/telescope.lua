@@ -36,3 +36,6 @@ telescope.setup({
 
 -- load the fzf extension for better fuzzy finding
 telescope.load_extension("fzf")
+
+-- load the live_grep_args extension for better search experience
+telescope.load_extension("live_grep_args")

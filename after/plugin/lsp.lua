@@ -26,7 +26,7 @@ lsp.ensure_installed({
 	"sumneko_lua",
 	"jsonls",
 	"bashls",
-	"eslint",
+	"rust_analyzer",
 })
 
 -- Fix Undefined global 'vim'
@@ -35,6 +35,26 @@ lsp.configure("sumneko_lua", {
 		Lua = {
 			diagnostics = {
 				globals = { "vim" },
+			},
+		},
+	},
+})
+
+lsp.configure("tsserver", {
+	single_file_support = false,
+})
+
+lsp.configure("rust_analyzer", {
+	settings = {
+		["rust-analyzer"] = {
+			cargo = {
+				features = "all",
+			},
+			procMacro = {
+				enable = true,
+			},
+			checkOnSave = {
+				command = "clippy",
 			},
 		},
 	},
@@ -78,11 +98,10 @@ lsp.on_attach(function(client, bufnr)
 	vim.keymap.set("n", "gl", vim.diagnostic.open_float, opts)
 
 	if client.name == "eslint" then
-		local group = vim.api.nvim_create_augroup("Eslint", {})
 		vim.api.nvim_create_autocmd("BufWritePre", {
-			group = group,
-			pattern = "<buffer>",
-			command = "EslintFixAll",
+			pattern = { "*.tsx", "*.ts", "*.jsx", "*.js" },
+			command = "silent! EslintFixAll",
+			group = vim.api.nvim_create_augroup("MyAutocmdsJavaScripFormatting", {}),
 			desc = "Run eslint when saving buffer.",
 		})
 	end
@@ -101,4 +120,4 @@ vim.diagnostic.config({
 	float = true,
 })
 
-lsp_saga.init_lsp_saga()
+lsp_saga.setup()

@@ -114,6 +114,7 @@ local mappings = {
 	},
 	s = {
 		name = "Search",
+		a = { "<cmd>lua require('spectre').open()<cr>", "spectre" },
 		b = { "<cmd>Telescope git_branches<cr>", "Checkout branch" },
 		c = { "<cmd>Telescope colorscheme<cr>", "Colorscheme" },
 		h = { "<cmd>Telescope help_tags<cr>", "Find Help" },
