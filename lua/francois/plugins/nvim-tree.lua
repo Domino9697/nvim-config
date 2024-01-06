@@ -12,11 +12,6 @@ nvimtree.setup({
 	update_focused_file = {
 		enable = true,
 	},
-	ignore_ft_on_setup = {
-		"startify",
-		"dashboard",
-		"alpha",
-	},
 	renderer = {
 		indent_markers = {
 			enable = false,
@@ -33,30 +28,6 @@ nvimtree.setup({
 				folder = true,
 				folder_arrow = true,
 				git = false,
-			},
-
-			glyphs = {
-				default = "",
-				symlink = "",
-				folder = {
-					default = "",
-					empty = "",
-					empty_open = "",
-					open = "",
-					symlink = "",
-					symlink_open = "",
-					arrow_open = "",
-					arrow_closed = "",
-				},
-				git = {
-					unstaged = "✗",
-					staged = "✓",
-					unmerged = "",
-					renamed = "➜",
-					untracked = "★",
-					deleted = "",
-					ignored = "◌",
-				},
 			},
 		},
 		highlight_git = true,

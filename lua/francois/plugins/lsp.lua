@@ -13,24 +13,45 @@ if not neodev_setup then
 	return
 end
 
+local luasnip_setup, luasnip = pcall(require, "luasnip")
+if not luasnip_setup then
+	return
+end
+
+local mason_setup, mason = pcall(require, "mason")
+if not mason_setup then
+	return
+end
+
+local lspconfig_setup, lspconfig = pcall(require, "mason-lspconfig")
+if not lspconfig_setup then
+	return
+end
+
 -- IMPORTANT: make sure to setup neodev BEFORE lspconfig
 neodev.setup({})
 
-lsp.preset("recommended")
+lsp.preset({})
 
-lsp.ensure_installed({
-	"tsserver",
-	"html",
-	"cssls",
-	"eslint",
-	"sumneko_lua",
-	"jsonls",
-	"bashls",
-	"rust_analyzer",
+mason.setup({})
+lspconfig.setup({
+	ensure_installed = {
+		"tsserver",
+		"html",
+		"cssls",
+		"eslint",
+		"lua_ls",
+		"jsonls",
+		"bashls",
+		"rust_analyzer",
+	},
+	handlers = {
+		lsp.default_setup,
+	},
 })
 
 -- Fix Undefined global 'vim'
-lsp.configure("sumneko_lua", {
+lsp.configure("lua_ls", {
 	settings = {
 		Lua = {
 			diagnostics = {
@@ -42,6 +63,15 @@ lsp.configure("sumneko_lua", {
 
 lsp.configure("tsserver", {
 	single_file_support = false,
+	init_options = {
+		hostInfo = "neovim",
+		plugins = {
+			{
+				name = "typescript-svelte-plugin",
+				location = "/home/francois/.local/share/pnpm/global/5/node_modules/",
+			},
+		},
+	},
 })
 
 lsp.configure("rust_analyzer", {
@@ -63,6 +93,11 @@ lsp.configure("rust_analyzer", {
 local cmp = require("cmp")
 local cmp_select = { behavior = cmp.SelectBehavior.Select }
 local cmp_mappings = lsp.defaults.cmp_mappings({
+	-- Enter to select completion item and close cmp
+	["<CR>"] = cmp.mapping.confirm({
+		behavior = cmp.ConfirmBehavior.Replace,
+		select = true,
+	}),
 	["<C-k>"] = cmp.mapping.select_prev_item(cmp_select),
 	["<C-j>"] = cmp.mapping.select_next_item(cmp_select),
 	-- toggle completion
@@ -85,7 +120,13 @@ lsp.set_preferences({
 cmp_mappings["<Tab>"] = nil
 cmp_mappings["<S-Tab>"] = nil
 
-lsp.setup_nvim_cmp({
+require("luasnip.loaders.from_vscode").lazy_load()
+
+cmp.setup({
+	sources = {
+		{ name = "nvim_lsp" },
+		{ name = "luasnip" },
+	},
 	mapping = cmp_mappings,
 })
 

@@ -22,7 +22,9 @@ null_ls.setup({
 	sources = {
 		formatting.stylua,
 		formatting.rustfmt,
-		formatting.prettier,
+		formatting.prettier.with({
+			extra_filetypes = { "vue", "svelte" },
+		}),
 	},
 	-- configure format on save
 	on_attach = function(current_client, bufnr)
@@ -55,7 +57,7 @@ null_ls.setup({
 })
 
 mason_null_ls.setup({
-	ensure_installed = nil,
+	ensure_installed = {},
 	automatic_installation = true,
 	automatic_setup = false,
 })
